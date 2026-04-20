@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id        String     @id @default(uuid())
+  email     String     @unique
+  password  String
+  nombre    String?
+  productos Producto[]
+}
+
+model Producto {
+  id        String   @id @default(uuid())
+  nombre    String
+  precio    Float
+  usuarioId String
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+}
